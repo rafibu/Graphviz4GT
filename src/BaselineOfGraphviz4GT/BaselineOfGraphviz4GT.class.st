@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfGraphviz4GT,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfGraphviz4GT
 }
 
