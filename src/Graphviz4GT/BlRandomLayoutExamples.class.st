@@ -49,50 +49,6 @@ BlRandomLayoutExamples >> withManyChildren [
 ]
 
 { #category : #accessing }
-BlRandomLayoutExamples >> withManyChildrenn [
-	<gtExample>
-	| aParentNode theChildNodes aLayout |
-	
-	theChildNodes := 100 timesCollect:[
-		BlLayoutChildNode new
-		constraints: (BlLayoutCommonConstraints new);
-		measurement: (BlLayoutNodeResizerMeasurement new);
-		hExact: 20;
-		vExact: 20 ].
-		
-	aParentNode := BlLayoutParentNode new
-		constraints: (BlLayoutCommonConstraints new);
-		extentSpec: (BlMeasurementSpec exact: 200)@(BlMeasurementSpec exact: 200);
-		children: {theChildNodes}.
-		
-	aLayout := BlRandomLayout new.
-	aLayout measure: aParentNode.
-	aLayout layout: aParentNode.
-		
-	^ aParentNode
-]
-
-{ #category : #accessing }
-BlRandomLayoutExamples >> withMaynChildElements [
-	<gtExample>
-	| aParent theChildElements |
-	
-	theChildElements := 100 timesCollect: [
-		BlElement new
-			size: 20@20;
-			background: (Color lightGray alpha: 0.5);
-			geometry: BlEllipseGeometry new
-	].
-	
-	aParent :=  BlElement new
-		layout: BlRandomLayout new;
-		size: 400@400;
-		addChildren: theChildElements.
-		
-	^ aParent
-]
-
-{ #category : #accessing }
 BlRandomLayoutExamples >> withOneChild [
 	<gtExample>
 	| aParentNode aChildNode aLayout |
