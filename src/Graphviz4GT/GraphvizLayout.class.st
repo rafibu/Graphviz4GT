@@ -8,8 +8,45 @@ Class {
 }
 
 { #category : #accessing }
+GraphvizLayout >> createGraphFor: aGtMondrian [
+	self createStringFor: aGtMondrian
+	"create temp Dot file with string"
+	"runningGraphvizInputFilename: temp.dot outputFilename: result.txt"
+	"positionShapes: aGtMondrian asElement (?) with: result.txt asByteStream (?)"
+]
+
+{ #category : #accessing }
+GraphvizLayout >> createStringFor: aMondrian [
+| allNodes allLines stream |
+	allNodes := OrderedCollection new.
+aMondrian root graph allNodeChildrenDo: [ :aNode |
+	allNodes add: aNode.
+].
+allLines := Set new.
+allNodes do: [ :aNode | 
+	allLines addAll: (aNode graph connectedEdges).
+	 ].
+allLines := allLines asOrderedCollection.
+stream := WriteStream on: String new.
+stream << 'graph GraphvizGT'; crlf; << '{'.
+allLines do: [ :aLine |
+	| fromElement toElement |
+	fromElement := aLine fromElement.
+	toElement := aLine toElement.
+	stream << (allNodes indexOf: fromElement) asString.
+	stream << ' -- '.
+	stream << (allNodes indexOf: toElement) asString.
+	stream << ';'.
+	stream lf
+].
+stream << '}'.
+self string: (stream contents)
+]
+
+{ #category : #accessing }
 GraphvizLayout >> layout: aParentLayoutNode [
-	self positionShapes: (aParentLayoutNode children) with: string
+	self createStringFor: aParentLayoutNode.
+	self positionShapes: aParentLayoutNode.
 ]
 
 { #category : #accessing }
@@ -22,10 +59,10 @@ GraphvizLayout >> measure: aParentLayoutNode [
 { #category : #accessing }
 GraphvizLayout >> positionShapes: elements with: aString [
 	| nodeIndex |
-	string ifEmpty: [ self error: 'Error in Dot converter' ].
+	aString ifEmpty: [ self error: 'Error in Dot converter' ].
 	nodeIndex := 1.
 	
-	string linesDo: [ :l | 
+	aString linesDo: [ :l | 
 		| line type |
 		line := (' ' split: l) readStream.
 		type := line next.
@@ -58,7 +95,7 @@ GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: fi
 	self new runningGraphvizInputFilename: 'hello.dot' outputFilename: 'myresult.txt'
 	"
 	
-	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: 'C:\Users\rafae\Desktop\Studium\Master\1.Semester\Seminar Software Composition\liball.lib'
+	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/home/rafi/Desktop/SCC/liball.so'
 ]
 
 { #category : #accessing }
