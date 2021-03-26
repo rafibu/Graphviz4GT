@@ -8,6 +8,42 @@ Class {
 }
 
 { #category : #accessing }
+GraphvizLayout >> createGraphFor: aGtMondrian [
+	self createStringFor: aGtMondrian
+	"create temp Dot file with string"
+	"runningGraphvizInputFilename: temp.dot outputFilename: result.txt"
+	"positionShapes: aGtMondrian asElement (?) with: result.txt asByteStream (?)"
+]
+
+{ #category : #accessing }
+GraphvizLayout >> createStringFor: aMondrian [
+| allNodes allLines stream |
+	allNodes := OrderedCollection new.
+aMondrian root graph allNodeChildrenDo: [ :aNode |
+	allNodes add: aNode.
+].
+allLines := Set new.
+allNodes do: [ :aNode | 
+	allLines addAll: (aNode graph connectedEdges).
+	 ].
+allLines := allLines asOrderedCollection.
+stream := WriteStream on: String new.
+stream << 'graph GraphvizGT'; crlf; << '{'.
+allLines do: [ :aLine |
+	| fromElement toElement |
+	fromElement := aLine fromElement.
+	toElement := aLine toElement.
+	stream << (allNodes indexOf: fromElement) asString.
+	stream << ' -- '.
+	stream << (allNodes indexOf: toElement) asString.
+	stream << ';'.
+	stream lf
+].
+stream << '}'.
+self string: (stream contents)
+]
+
+{ #category : #accessing }
 GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	| allNodes allEdges result |
 
@@ -57,17 +93,8 @@ GraphvizLayout >> getDotDescriptionFromOLD: aRootBlElement [
 
 { #category : #accessing }
 GraphvizLayout >> layout: aParentLayoutNode [
-	| fr frOutput |
-	"string := self getDotDescriptionFrom: aParentLayoutNode."
-	fr := '/tmp/description.dot' asFileReference.
-	fr exists ifTrue: [ fr delete ].
-	
-	fr writeStream nextPutAll: ((self getDotDescriptionFrom: aParentLayoutNode withGraphNodes withGraphEdges)); close.
-	frOutput := '/tmp/result.txt' asFileReference.
-	frOutput exists ifTrue: [ frOutput delete ].
-	(self runningGraphvizInputFilename: '/tmp/description.dot' outputFilename: '/tmp/result.txt').
-	self positionShapes: (aParentLayoutNode children) with: frOutput readStream contents.
-	aParentLayoutNode children normalizePositions
+	self createStringFor: aParentLayoutNode.
+	self positionShapes: aParentLayoutNode.
 ]
 
 { #category : #accessing }
@@ -88,8 +115,7 @@ GraphvizLayout >> measureParentNode: aParentLayoutNode [
 
 { #category : #accessing }
 GraphvizLayout >> positionShapes: elements with: aString [
-	| nodeIndex yMin yMax |
-	aString ifNil: [ self error: 'cannot be nil' ].
+	| nodeIndex |
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
 	nodeIndex := 1.
 	
@@ -103,7 +129,7 @@ GraphvizLayout >> positionShapes: elements with: aString [
 			x := 20*line next asNumber.
 			y := 20*line next asNumber.
 			
-			(elements at: nodeIndex) position: x @ y.
+			(elements at: nodeIndex) position: x@y.
 			nodeIndex := nodeIndex + 1.
 			 ].
 		"type = #edge ifTrue: [
@@ -118,13 +144,6 @@ GraphvizLayout >> positionShapes: elements with: aString [
 			edge propertyAt: #points put: points.
 			 ]."
 		 ].
-		 
-	"Graphviz uses a different Y-axis than GT. We perform a small conversion"
-	yMin := (elements collect: [ :e | e position y ]) min.
-	yMax := (elements collect: [ :e | e position y ]) max.
-	elements do: [ :e |
-		e position: (e position x) @ (yMax - e position y)
-	]
 ]
 
 { #category : #accessing }
@@ -133,7 +152,7 @@ GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: fi
 	self new runningGraphvizInputFilename: 'hello.dot' outputFilename: 'myresult.txt'
 	"
 	
-	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/Users/alexandrebergel/Desktop/TestC/liball.dylib'
+	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/home/rafi/Desktop/SCC/liball.so'
 ]
 
 { #category : #accessing }
