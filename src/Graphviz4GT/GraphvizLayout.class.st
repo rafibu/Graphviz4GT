@@ -93,8 +93,17 @@ GraphvizLayout >> getDotDescriptionFromOLD: aRootBlElement [
 
 { #category : #accessing }
 GraphvizLayout >> layout: aParentLayoutNode [
-	self createStringFor: aParentLayoutNode.
-	self positionShapes: aParentLayoutNode.
+	| fr frOutput |
+ 	"string := self getDotDescriptionFrom: aParentLayoutNode."
+ 	fr := '/tmp/description.dot' asFileReference.
+ 	fr exists ifTrue: [ fr delete ].
+
+ 	fr writeStream nextPutAll: ((self getDotDescriptionFrom: aParentLayoutNode withGraphNodes withGraphEdges)); close.
+ 	frOutput := '/tmp/result.txt' asFileReference.
+ 	frOutput exists ifTrue: [ frOutput delete ].
+ 	(self runningGraphvizInputFilename: '/tmp/description.dot' outputFilename: '/tmp/result.txt').
+ 	self positionShapes: (aParentLayoutNode children) with: frOutput readStream contents.
+ 	aParentLayoutNode children normalizePositions
 ]
 
 { #category : #accessing }
@@ -115,7 +124,7 @@ GraphvizLayout >> measureParentNode: aParentLayoutNode [
 
 { #category : #accessing }
 GraphvizLayout >> positionShapes: elements with: aString [
-	| nodeIndex |
+	| nodeIndex yMax |
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
 	nodeIndex := 1.
 	
@@ -144,15 +153,24 @@ GraphvizLayout >> positionShapes: elements with: aString [
 			edge propertyAt: #points put: points.
 			 ]."
 		 ].
+
+	"Graphviz uses a different Y-axis than GT. We perform a small conversion"
+ 	yMax := (elements collect: [ :e | e position y ]) max.
+ 	elements do: [ :e |
+ 		e position: (e position x) @ (yMax - e position y)
+ 	]
 ]
 
 { #category : #accessing }
 GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: filenameOutput [
 	"
 	self new runningGraphvizInputFilename: 'hello.dot' outputFilename: 'myresult.txt'
-	"
 	
 	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/home/rafi/Desktop/SCC/liball.so'
+
+	"
+	
+	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/Users/alexandrebergel/Desktop/TestC/liball.dylib'
 ]
 
 { #category : #accessing }
