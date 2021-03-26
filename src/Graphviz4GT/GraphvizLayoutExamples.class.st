@@ -5,6 +5,17 @@ Class {
 }
 
 { #category : #accessing }
+GraphvizLayoutExamples >> basicExample [
+	<gtExample>
+	| m |
+	m := GtMondrian new.
+	m nodes with: (1 to: 10).
+	m edges connectFrom: [ :nb | nb // 2 ].
+	m layout graphviz.
+	^ m
+]
+
+{ #category : #accessing }
 GraphvizLayoutExamples >> helloWorld [
 <gtExample>
 |string aParent theChildElements layout|

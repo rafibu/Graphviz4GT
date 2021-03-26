@@ -21,6 +21,15 @@ BlRandomLayout >> layout: aParentLayoutNode [
 { #category : #accessing }
 BlRandomLayout >> measure: aParentLayoutNode [
 	self preMeasureChildrenNodes: aParentLayoutNode.
+	self measureParentNode: aParentLayoutNode.
+]
 
-	aParentLayoutNode extent: (aParentLayoutNode extentSpec sizeFor: 0@0)
+{ #category : #accessing }
+BlRandomLayout >> measureParentNode: aParentLayoutNode [
+	"Compute the measured extent of the parent node based on the measured bounds of the children"
+	| boundingBox width height |
+	boundingBox := aParentLayoutNode children boundingBox.
+	width := boundingBox width + aParentLayoutNode padding width.
+	height := boundingBox height + aParentLayoutNode padding height.
+	aParentLayoutNode extent: (aParentLayoutNode extentSpec sizeFor: width @ height)
 ]
