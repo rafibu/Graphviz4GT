@@ -15,7 +15,7 @@ GraphvizLayout >> createGraphFor: aGtMondrian [
 	"positionShapes: aGtMondrian asElement (?) with: result.txt asByteStream (?)"
 ]
 
-{ #category : #accessing }
+{ #category : #obsolete }
 GraphvizLayout >> createStringFor: aMondrian [
 | allNodes allLines stream |
 	allNodes := OrderedCollection new.
@@ -64,7 +64,7 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	^ result contents
 ]
 
-{ #category : #accessing }
+{ #category : #obsolete }
 GraphvizLayout >> getDotDescriptionFromOLD: aRootBlElement [
 	| allNodes allLines stream fromElement toElement |
 	allNodes := OrderedCollection new.
@@ -173,7 +173,7 @@ GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: fi
 	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/Users/alexandrebergel/Desktop/TestC/liball.dylib'
 ]
 
-{ #category : #accessing }
+{ #category : #obsolete }
 GraphvizLayout >> string: aString [
  string := aString
 ]
