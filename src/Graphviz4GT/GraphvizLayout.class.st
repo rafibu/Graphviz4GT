@@ -165,12 +165,9 @@ GraphvizLayout >> positionShapes: elements with: aString [
 GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: filenameOutput [
 	"
 	self new runningGraphvizInputFilename: 'hello.dot' outputFilename: 'myresult.txt'
-	
-	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/home/rafi/Desktop/SCC/liball.so'
-
 	"
 	
-	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: '/Users/alexandrebergel/Desktop/TestC/liball.dylib'
+	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: GraphvizFFILibrary
 ]
 
 { #category : #obsolete }
