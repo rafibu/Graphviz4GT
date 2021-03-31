@@ -12,14 +12,6 @@ Class {
 	#category : #Graphviz4GT
 }
 
-{ #category : #accessing }
-GraphvizLayout >> createGraphFor: aGtMondrian [
-	self createStringFor: aGtMondrian
-	"create temp Dot file with string"
-	"runningGraphvizInputFilename: temp.dot outputFilename: result.txt"
-	"positionShapes: aGtMondrian asElement (?) with: result.txt asByteStream (?)"
-]
-
 { #category : #obsolete }
 GraphvizLayout >> createStringFor: aMondrian [
 | allNodes allLines stream |
@@ -67,33 +59,6 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 			result lf ].
 	result << '}'; lf.
 	^ result contents
-]
-
-{ #category : #obsolete }
-GraphvizLayout >> getDotDescriptionFromOLD: aRootBlElement [
-	| allNodes allLines stream fromElement toElement |
-	allNodes := OrderedCollection new.
-	aRootBlElement graph
-		allNodeChildrenDo: [ :aNode | allNodes add: aNode ].
-	allLines := Set new.
-	allNodes do: [ :aNode | allLines addAll: aNode graph connectedEdges ].
-	allLines := allLines asOrderedCollection.
-	stream := WriteStream on: String new.
-	stream
-		<< 'graph GraphvizGT';
-		crlf;
-		<< '{'.
-	allLines
-		do: [ :aLine | 
-			fromElement := aLine fromElement.
-			toElement := aLine toElement.
-			stream << (allNodes indexOf: fromElement) asString.
-			stream << ' -- '.
-			stream << (allNodes indexOf: toElement) asString.
-			stream << ';'.
-			stream lf ].
-	stream << '}'.
-	^ stream contents
 ]
 
 { #category : #accessing }
