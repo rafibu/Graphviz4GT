@@ -1,3 +1,8 @@
+"
+A Layout which orders the Children of a BlElement as Nodes of a Graph in random ways.
+
+Is only used for testing
+"
 Class {
 	#name : #BlRandomLayout,
 	#superclass : #BlNodeBasedLayout,

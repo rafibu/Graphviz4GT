@@ -1,3 +1,8 @@
+"
+This Layout calls the Graphviz Library to organize a GtMondrian Graph and return it.
+
+The best way to use it is by calling GtMondrianLayoutBuilder graphviz 
+"
 Class {
 	#name : #GraphvizLayout,
 	#superclass : #BlNodeBasedLayout,

@@ -1,3 +1,6 @@
+"
+Keeps track of the external Libraries which are used in GraphvizLayout
+"
 Class {
 	#name : #GraphvizFFILibrary,
 	#superclass : #FFILibrary,
