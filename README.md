@@ -1,5 +1,8 @@
 # Installation #
 
+##  Prerequisites ## 
+If not already installed on your machine, first install graphviz as described here: https://graphviz.org/download/
+
 ## Cloning the repository ##
 Run the following code in your GToolkit:
 
