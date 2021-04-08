@@ -2,6 +2,7 @@
 
 ##  Prerequisites ## 
 If not already installed on your machine, first install graphviz as described here: https://graphviz.org/download/
+If you are using `brew` as it may happen if you are a mac user, you can simple execute in a terminal `brew install graphviz`. In case you are using a M1-based machine, you could try: `arch -x86_64 brew install graphviz`
 
 ## Cloning the repository ##
 Run the following code in your GToolkit:
