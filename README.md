@@ -1,7 +1,8 @@
 # Installation #
 
 ##  Prerequisites ## 
-If not already installed on your machine, first install graphviz as described here: https://graphviz.org/download/
+If not already installed on your machine, first install graphviz as described here: https://graphviz.org/download/.
+
 If you are using `brew` as it may happen if you are a mac user, you can simple execute in a terminal `brew install graphviz`. In case you are using a M1-based machine, you could try: `arch -x86_64 brew install graphviz`
 
 ## Cloning the repository ##
@@ -15,12 +16,13 @@ Metacello new
 ```
 
 ## Add Libraries ##
-For the GraphvizLayout to work we first have to add the libraries to GT.
+For the GraphvizLayout to work we first have to add a simple library to GT. The library is provided as a simple file.
 
 ### Linux ###
 Take the file called 'liball.so' from the libraries folder in your git repo. Add it to the lib folder of GToolkit.
 
 ### MacOS ###
+@TODO
 
 ## FAQ ##
 **How to start using the graphviz layout for GT?** The class `GraphvizLayoutExamples` contains many simple and short examples. Look at this class is probably a good start.
