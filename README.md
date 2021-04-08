@@ -6,7 +6,7 @@ If not already installed on your machine, first install graphviz as described he
 ## Cloning the repository ##
 Run the following code in your GToolkit:
 
-```
+```Smalltalk
 Metacello new
   baseline: 'Graphviz4GT';
   repository: 'github://rafibu/Graphviz4GT/src';
