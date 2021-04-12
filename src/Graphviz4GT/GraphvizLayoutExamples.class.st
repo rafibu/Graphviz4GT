@@ -214,7 +214,7 @@ view edges
 	connect: proCluster from: #key to: #value.
 
 view layout graphviz.
-^ view
+^ view.
 ]
 
 { #category : #accessing }
