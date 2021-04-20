@@ -49,6 +49,15 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	allNodes do: [ :aNode | allEdges addAll: aNode outgoingEdges ].
 	result := WriteStream on: String new.
 	result << 'graph {'; lf.
+	allNodes do: [ :aNode |
+		result tab.
+		result << (allNodes indexOf: aNode) asString.
+		result << '[shape=box height='.
+		result << (aNode height) asString.
+		result << 'width='.
+		result << (aNode width) asString.
+		result << '];'.
+	].
 	allEdges
 		do: [ :anEdge |
 			result tab.
