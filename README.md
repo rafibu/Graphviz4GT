@@ -25,6 +25,6 @@ Take the file called 'liball.so' from the libraries folder in your git repo. Add
 @TODO
 
 ## FAQ ##
-**How to start using the graphviz layout for GT?** The class `GraphvizLayoutExamples` contains many simple and short examples. Look at this class is probably a good start.
+**How to start using the graphviz layout for GT?** The class `GraphvizLayoutExamples` contains many simple and short examples. Looking at this class is probably a good start.
 
 **When running the example, I obtain the error External module not found** Our extension rely on a plugin used by the virtual machine. If you get this error, this means that the virtual machine is not able to find the our plugin module. In particular, you should make sure that graphviz is installed on your machine, and you have installed the library in the correct folder.
