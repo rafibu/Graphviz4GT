@@ -218,6 +218,13 @@ view layout graphviz.
 ]
 
 { #category : #accessing }
+GraphvizLayoutExamples >> libraryIsFound [
+	<gtExample>
+	"Should not raise an error"
+	^ GraphvizFFILibrary uniqueInstance macModuleName
+]
+
+{ #category : #accessing }
 GraphvizLayoutExamples >> randomExample [
 <gtExample>
 | m |

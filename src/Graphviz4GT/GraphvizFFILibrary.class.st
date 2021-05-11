@@ -9,7 +9,14 @@ Class {
 
 { #category : #accessing }
 GraphvizFFILibrary >> macModuleName [
-^ 'liball.dylib'
+	{ 
+		'liball.dylib' .
+		(Smalltalk imageDirectory fullName, '/pharo-local/iceberg/rafibu/Graphviz4GT/libraries/liball.dylib')
+	} do: [:path | 
+		path asFileReference exists ifTrue: [^ path ] ].
+	self error: 'Cannot locate the liball library.'
+
+
 ]
 
 { #category : #accessing }
