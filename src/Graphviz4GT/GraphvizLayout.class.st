@@ -79,7 +79,7 @@ GraphvizLayout >> layout: aParentLayoutNode [
 
  	fr writeStream nextPutAll: ((self getDotDescriptionFrom: aParentLayoutNode withGraphNodes withGraphEdges)); close.
  	frOutput := '/tmp/result.txt' asFileReference.
- 	frOutput exists ifTrue: [ frOutput delete ].
+ 	"frOutput exists ifTrue: [ frOutput delete ]."
  	(self runningGraphvizInputFilename: '/tmp/description.dot' outputFilename: '/tmp/result.txt').
  	self positionShapes: (aParentLayoutNode children) with: frOutput readStream contents.
  	aParentLayoutNode children normalizePositions
@@ -103,8 +103,36 @@ GraphvizLayout >> measureParentNode: aParentLayoutNode [
 
 { #category : #accessing }
 GraphvizLayout >> positionShapes: elements with: aString [
-	| nodeIndex yMax |
+	| nodeIndex yMax maxX maxY xFactor yFactor b|
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
+	nodeIndex := 1.
+	maxX := 0.
+	maxY := 0.
+	
+	aString linesDo: [ :l | 
+		| line type |
+		line := (' ' split: l) readStream.
+		type := line next.
+		type = #node ifTrue: [ 
+			| x y |
+			line next.
+			x := line next asNumber.
+			y := line next asNumber.
+			
+			x > maxX ifTrue: [
+				maxX := x
+			].
+			
+			y > maxY ifTrue: [
+				maxY := y
+			].
+			nodeIndex := nodeIndex + 1.
+			 ].
+		 ].
+		 
+	xFactor := ((elements at: 1) parent extent x)/maxX.
+	yFactor := ((elements at: 1) parent extent y)/maxY.
+		 
 	nodeIndex := 1.
 	
 	aString linesDo: [ :l | 
@@ -114,23 +142,12 @@ GraphvizLayout >> positionShapes: elements with: aString [
 		type = #node ifTrue: [ 
 			| x y |
 			line next.
-			x := 20*line next asNumber.
-			y := 20*line next asNumber.
+			x := xFactor * line next asNumber.
+			y := yFactor * line next asNumber.
 			
 			(elements at: nodeIndex) position: x@y.
 			nodeIndex := nodeIndex + 1.
 			 ].
-		"type = #edge ifTrue: [
-			| points tail head edge |
-			tail := line next asNumber.
-			head := line next asNumber.
-			tail := elements at: tail.
-			head := elements at: head.
-			points := self pointsFor: line.
-			edge := tail connectedEdges detect: [ :ed | ed to = head ].
-			edge attachPoint: (RSGraphVizAttachPoint new points: points edge: edge).
-			edge propertyAt: #points put: points.
-			 ]."
 		 ].
 
 	"Graphviz uses a different Y-axis than GT. We perform a small conversion"
