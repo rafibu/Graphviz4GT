@@ -1,3 +1,6 @@
+"
+The Encoder keeps track of the settings for Graphviz
+"
 Class {
 	#name : #GVAbstractEncoder,
 	#superclass : #Object,

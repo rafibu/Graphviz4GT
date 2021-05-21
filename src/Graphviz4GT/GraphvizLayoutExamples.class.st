@@ -251,6 +251,45 @@ GraphvizLayoutExamples >> simpleGraph [
 ]
 
 { #category : #accessing }
+GraphvizLayoutExamples >> simpleGraphCirco [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcd' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz circo.
+	^ m
+]
+
+{ #category : #accessing }
+GraphvizLayoutExamples >> simpleGraphDigraph [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcd' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz circo.
+	^ m
+]
+
+{ #category : #accessing }
+GraphvizLayoutExamples >> simpleGraphNeato [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcd' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz neato.
+	^ m
+]
+
+{ #category : #accessing }
 GraphvizLayoutExamples >> simpleGraphSFDP [
 <gtExample>
 | m |
@@ -260,5 +299,18 @@ GraphvizLayoutExamples >> simpleGraphSFDP [
 	m edges connectTo: [ :c | 
 	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
 	m layout graphviz sfdp.
+	^ m
+]
+
+{ #category : #accessing }
+GraphvizLayoutExamples >> simpleGraphTwoPi [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcd' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz twopi.
 	^ m
 ]

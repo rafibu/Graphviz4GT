@@ -1,3 +1,7 @@
+"
+Spring force directed Layout
+Well suited for bigger Graphs.
+"
 Class {
 	#name : #GVSFDPEncoder,
 	#superclass : #GVAbstractEncoder,

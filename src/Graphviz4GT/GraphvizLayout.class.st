@@ -13,6 +13,11 @@ Class {
 	#category : #Graphviz4GT
 }
 
+{ #category : #accessing }
+GraphvizLayout >> circo [
+	encoder := GVCircoEncoder new
+]
+
 { #category : #obsolete }
 GraphvizLayout >> createStringFor: aMondrian [
 | allNodes allLines stream |
@@ -39,6 +44,11 @@ allLines do: [ :aLine |
 ].
 stream << '}'.
 self string: (stream contents)
+]
+
+{ #category : #accessing }
+GraphvizLayout >> digraph [
+	encoder := GVCircoEncoder new
 ]
 
 { #category : #accessing }
@@ -107,6 +117,11 @@ GraphvizLayout >> measureParentNode: aParentLayoutNode [
 	width := boundingBox width + aParentLayoutNode padding width.
 	height := boundingBox height + aParentLayoutNode padding height.
 	aParentLayoutNode extent: (aParentLayoutNode extentSpec sizeFor: width @ height)
+]
+
+{ #category : #accessing }
+GraphvizLayout >> neato [
+	encoder := GVNeatoEncoder new
 ]
 
 { #category : #accessing }
@@ -182,4 +197,9 @@ GraphvizLayout >> sfdp [
 { #category : #obsolete }
 GraphvizLayout >> string: aString [
  string := aString
+]
+
+{ #category : #accessing }
+GraphvizLayout >> twopi [
+	encoder := GVTwoPiEncoder new
 ]
