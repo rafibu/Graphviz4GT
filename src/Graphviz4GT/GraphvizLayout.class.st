@@ -7,7 +7,8 @@ Class {
 	#name : #GraphvizLayout,
 	#superclass : #BlNodeBasedLayout,
 	#instVars : [
-		'string'
+		'string',
+		'encoder'
 	],
 	#category : #Graphviz4GT
 }
@@ -49,6 +50,7 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	allNodes do: [ :aNode | allEdges addAll: aNode outgoingEdges ].
 	result := WriteStream on: String new.
 	result << 'graph {'; lf.
+	encoder writeLayoutNameOn: result.
 	allNodes do: [ :aNode |
 		result tab.
 		result << (allNodes indexOf: aNode) asString.
@@ -68,6 +70,12 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 			result lf ].
 	result << '}'; lf.
 	^ result contents
+]
+
+{ #category : #accessing }
+GraphvizLayout >> initialize [
+	super initialize.
+	encoder := GVDefaultEncoder new
 ]
 
 { #category : #accessing }
@@ -164,6 +172,11 @@ GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: fi
 	"
 	
 	^ self ffiCall: #( int runGraphviz ( char * filenameInput , char* filenameOutput) ) library: GraphvizFFILibrary
+]
+
+{ #category : #accessing }
+GraphvizLayout >> sfdp [
+	encoder := GVSFDPEncoder new
 ]
 
 { #category : #obsolete }

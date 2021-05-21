@@ -2,5 +2,9 @@ Extension { #name : #GtMondrianLayoutBuilder }
 
 { #category : #'*Graphviz4GT' }
 GtMondrianLayoutBuilder >> graphviz [
-	^ self topStep layout: (BlFitChildrenLayout new addLayout: GraphvizLayout new)
+	| gvLayout |
+	gvLayout := GraphvizLayout new.
+	
+	self topStep layout: (BlFitChildrenLayout new addLayout: gvLayout).
+	^ gvLayout
 ]

@@ -230,9 +230,35 @@ GraphvizLayoutExamples >> randomExample [
 | m |
 
 	m := GtMondrian new.
-	m nodes with: (1 to: 15).
+	m nodes with: (1 to: 100).
 	m edges connectFrom: [ :nb | 15 atRandom ].
 	m layout graphviz.
 	^ m
 	
+]
+
+{ #category : #accessing }
+GraphvizLayoutExamples >> simpleGraph [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcd' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz.
+	^ m
+]
+
+{ #category : #accessing }
+GraphvizLayoutExamples >> simpleGraphSFDP [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcd' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a } asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz sfdp.
+	^ m
 ]
