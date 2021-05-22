@@ -71,6 +71,7 @@ GraphvizLayout >> digraph [
 ]
 
 { #category : #accessing }
+
 GraphvizLayout >> dot [
 	"Do nothing as this is the default layout"
 ]
@@ -81,6 +82,7 @@ GraphvizLayout >> fdp [
 ]
 
 { #category : #accessing }
+
 GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	| allNodes allEdges result |
 
@@ -155,6 +157,7 @@ GraphvizLayout >> neato [
 ]
 
 { #category : #accessing }
+
 GraphvizLayout >> osage [
 	encoder := GVOsageEncoder new
 ]
@@ -165,6 +168,7 @@ GraphvizLayout >> patchwork [
 ]
 
 { #category : #accessing }
+
 GraphvizLayout >> positionShapes: elements with: aString [
 	| nodeIndex yMax maxX maxY xFactor yFactor b|
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
