@@ -2,6 +2,25 @@
 This Layout calls the Graphviz Library to organize a GtMondrian Graph and return it.
 
 The best way to use it is by calling GtMondrianLayoutBuilder graphviz 
+
+Arguments about the Graphviz settings can be given in the following way:
+
+GraphvizLayout new {layout} {direction}
+Example: GraphvizLayout new dot rankdirTB
+
+with the following layout options:
+- dot (default)
+- neato
+- circo
+- sfdp
+- fdp
+- twopi
+- osage
+- patchwork
+
+For direction (Note: only the dot layout can understand different rankdir options):
+- rankdirTB (Top to Bottom, default)
+- rankdirLR (Left to Right)
 "
 Class {
 	#name : #GraphvizLayout,
@@ -12,6 +31,11 @@ Class {
 	],
 	#category : #Graphviz4GT
 }
+
+{ #category : #accessing }
+GraphvizLayout >> circo [
+	encoder := GVCircoEncoder new
+]
 
 { #category : #obsolete }
 GraphvizLayout >> createStringFor: aMondrian [
@@ -42,6 +66,21 @@ self string: (stream contents)
 ]
 
 { #category : #accessing }
+GraphvizLayout >> digraph [
+	encoder := GVCircoEncoder new
+]
+
+{ #category : #accessing }
+GraphvizLayout >> dot [
+	"Do nothing as this is the default layout"
+]
+
+{ #category : #accessing }
+GraphvizLayout >> fdp [
+	encoder := GVFDPEncoder new
+]
+
+{ #category : #accessing }
 GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	| allNodes allEdges result |
 
@@ -51,6 +90,7 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	result := WriteStream on: String new.
 	result << 'graph {'; lf.
 	encoder writeLayoutNameOn: result.
+	encoder writeRankdirOn: result.
 	allNodes do: [ :aNode |
 		result tab.
 		result << (allNodes indexOf: aNode) asString.
@@ -110,6 +150,21 @@ GraphvizLayout >> measureParentNode: aParentLayoutNode [
 ]
 
 { #category : #accessing }
+GraphvizLayout >> neato [
+	encoder := GVNeatoEncoder new
+]
+
+{ #category : #accessing }
+GraphvizLayout >> osage [
+	encoder := GVOsageEncoder new
+]
+
+{ #category : #accessing }
+GraphvizLayout >> patchwork [
+	encoder := GVPatchworkEncoder new
+]
+
+{ #category : #accessing }
 GraphvizLayout >> positionShapes: elements with: aString [
 	| nodeIndex yMax maxX maxY xFactor yFactor b|
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
@@ -166,6 +221,21 @@ GraphvizLayout >> positionShapes: elements with: aString [
 ]
 
 { #category : #accessing }
+GraphvizLayout >> rankdirLR [
+	encoder rankdirLR
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankdirTB [
+	encoder rankdirTB
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rotate: int [
+	encoder rotation: int
+]
+
+{ #category : #accessing }
 GraphvizLayout >> runningGraphvizInputFilename: filenameInput outputFilename: filenameOutput [
 	"
 	self new runningGraphvizInputFilename: 'hello.dot' outputFilename: 'myresult.txt'
@@ -182,4 +252,9 @@ GraphvizLayout >> sfdp [
 { #category : #obsolete }
 GraphvizLayout >> string: aString [
  string := aString
+]
+
+{ #category : #accessing }
+GraphvizLayout >> twopi [
+	encoder := GVTwoPiEncoder new
 ]

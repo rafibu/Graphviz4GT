@@ -1,3 +1,7 @@
+"
+Default encoder
+No further instructions will be passed to Graphviz
+"
 Class {
 	#name : #GVDefaultEncoder,
 	#superclass : #GVAbstractEncoder,
