@@ -1,3 +1,6 @@
+"
+spring model - attempts to minimize a global energy function, which is equivalent to statistical multi-dimensional scaling
+"
 Class {
 	#name : #GVNeatoEncoder,
 	#superclass : #GVAbstractEncoder,

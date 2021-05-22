@@ -9,6 +9,24 @@ Class {
 }
 
 { #category : #accessing }
+GVSFDPEncoder >> rotation: int [
+	rotation := 'rotation=', int asString
+]
+
+{ #category : #accessing }
+GVSFDPEncoder >> writeEncoderOptionsOn: stream [
+	super writeEncoderOptionsOn: stream.
+	self writeRotationOn: stream
+]
+
+{ #category : #accessing }
 GVSFDPEncoder >> writeLayoutNameOn: stream [
 	stream nextPutAll: 'layout = "sfdp" ;'; crlf
+]
+
+{ #category : #accessing }
+GVSFDPEncoder >> writeRotationOn: stream [
+	rotation notNil ifTrue: [
+		stream nextPutAll: rotation; crlf
+	].
 ]

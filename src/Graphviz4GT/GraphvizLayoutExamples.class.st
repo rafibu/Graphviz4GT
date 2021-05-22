@@ -5,6 +5,19 @@ Class {
 }
 
 { #category : #accessing }
+GraphvizLayoutExamples >> RotatedSFDPGraphExample [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcdef' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a. $e -> $f. $f -> $a }  asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz sfdp rotate: 120.
+	^ m
+]
+
+{ #category : #accessing }
 GraphvizLayoutExamples >> basicExample [
 	<gtExample>
 	| m |
@@ -215,6 +228,19 @@ view edges
 
 view layout graphviz.
 ^ view.
+]
+
+{ #category : #accessing }
+GraphvizLayoutExamples >> leftToRightGraphExample [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: 'abcdef' asArray.
+	m edges connectTo: [ :c | 
+	 { $a -> $b . $b -> $c . $c -> $d . $d -> $a. $e -> $f. $f -> $a }  asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz rankdirLR.
+	^ m
 ]
 
 { #category : #accessing }

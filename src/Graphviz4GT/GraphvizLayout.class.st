@@ -2,6 +2,25 @@
 This Layout calls the Graphviz Library to organize a GtMondrian Graph and return it.
 
 The best way to use it is by calling GtMondrianLayoutBuilder graphviz 
+
+Arguments about the Graphviz settings can be given in the following way:
+
+GraphvizLayout new {layout} {direction}
+Example: GraphvizLayout new dot rankdirTB
+
+with the following layout options:
+- dot (default)
+- neato
+- circo
+- sfdp
+- fdp
+- twopi
+- osage
+- patchwork
+
+For direction (Note: only the dot layout can understand different rankdir options):
+- rankdirTB (Top to Bottom, default)
+- rankdirLR (Left to Right)
 "
 Class {
 	#name : #GraphvizLayout,
@@ -52,6 +71,18 @@ GraphvizLayout >> digraph [
 ]
 
 { #category : #accessing }
+
+GraphvizLayout >> dot [
+	"Do nothing as this is the default layout"
+]
+
+{ #category : #accessing }
+GraphvizLayout >> fdp [
+	encoder := GVFDPEncoder new
+]
+
+{ #category : #accessing }
+
 GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	| allNodes allEdges result |
 
@@ -61,6 +92,7 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	result := WriteStream on: String new.
 	result << 'graph {'; lf.
 	encoder writeLayoutNameOn: result.
+	encoder writeRankdirOn: result.
 	allNodes do: [ :aNode |
 		result tab.
 		result << (allNodes indexOf: aNode) asString.
@@ -125,6 +157,18 @@ GraphvizLayout >> neato [
 ]
 
 { #category : #accessing }
+
+GraphvizLayout >> osage [
+	encoder := GVOsageEncoder new
+]
+
+{ #category : #accessing }
+GraphvizLayout >> patchwork [
+	encoder := GVPatchworkEncoder new
+]
+
+{ #category : #accessing }
+
 GraphvizLayout >> positionShapes: elements with: aString [
 	| nodeIndex yMax maxX maxY xFactor yFactor b|
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
@@ -178,6 +222,21 @@ GraphvizLayout >> positionShapes: elements with: aString [
  	elements do: [ :e |
  		e position: (e position x) @ (yMax - e position y)
  	]
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankdirLR [
+	encoder rankdirLR
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankdirTB [
+	encoder rankdirTB
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rotate: int [
+	encoder rotation: int
 ]
 
 { #category : #accessing }
