@@ -18,6 +18,19 @@ GraphvizLayoutExamples >> RotatedSFDPGraphExample [
 ]
 
 { #category : #accessing }
+GraphvizLayoutExamples >> SubgraphExample [
+<gtExample>
+| m |
+
+	m := GtMondrian new.
+	m nodes with: '123456' asArray.
+	m edges connectTo: [ :c | 
+	 { $1 -> $2 . $2 -> $3 . $3 -> $4 . $4 -> $1. $5 -> $6. $6 -> $1 }  asDictionary at: c ifAbsent: [nil] ].
+	m layout graphviz rankMax subgraph: {1. 5 } asSet.
+	^ m
+]
+
+{ #category : #accessing }
 GraphvizLayoutExamples >> basicExample [
 	<gtExample>
 	| m |
@@ -256,8 +269,8 @@ GraphvizLayoutExamples >> randomExample [
 | m |
 
 	m := GtMondrian new.
-	m nodes with: (1 to: 100).
-	m edges connectFrom: [ :nb | 15 atRandom ].
+	m nodes with: (1 to: 10).
+	m edges connectFrom: [ :nb | 10 atRandom ].
 	m layout graphviz.
 	^ m
 	

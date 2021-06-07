@@ -5,8 +5,8 @@ The best way to use it is by calling GtMondrianLayoutBuilder graphviz
 
 Arguments about the Graphviz settings can be given in the following way:
 
-GraphvizLayout new {layout} {direction}
-Example: GraphvizLayout new dot rankdirTB
+GraphvizLayout new {layout} {direction} {rank} 
+Example: GraphvizLayout new dot rankdirTB rankSame
 
 with the following layout options:
 - dot (default)
@@ -21,6 +21,17 @@ with the following layout options:
 For direction (Note: only the dot layout can understand different rankdir options):
 - rankdirTB (Top to Bottom, default)
 - rankdirLR (Left to Right)
+
+For rank:
+- same
+- min
+- source
+- max
+- sink
+
+Subgraphs can be added by the command:
+subgraph: aSet
+
 "
 Class {
 	#name : #GraphvizLayout,
@@ -35,6 +46,11 @@ Class {
 { #category : #accessing }
 GraphvizLayout >> circo [
 	encoder := GVCircoEncoder new
+]
+
+{ #category : #accessing }
+GraphvizLayout >> cluster: aCollection [
+encoder addCluster: aCollection.
 ]
 
 { #category : #obsolete }
@@ -71,7 +87,6 @@ GraphvizLayout >> digraph [
 ]
 
 { #category : #accessing }
-
 GraphvizLayout >> dot [
 	"Do nothing as this is the default layout"
 ]
@@ -82,7 +97,6 @@ GraphvizLayout >> fdp [
 ]
 
 { #category : #accessing }
-
 GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 	| allNodes allEdges result |
 
@@ -110,6 +124,7 @@ GraphvizLayout >> getDotDescriptionFrom: aParentGraphNode [
 			result << (allNodes indexOf: anEdge toNode) asString.
 			result << ';'.
 			result lf ].
+	encoder writeSubgraphsOn: result.
 	result << '}'; lf.
 	^ result contents
 ]
@@ -157,7 +172,6 @@ GraphvizLayout >> neato [
 ]
 
 { #category : #accessing }
-
 GraphvizLayout >> osage [
 	encoder := GVOsageEncoder new
 ]
@@ -168,7 +182,6 @@ GraphvizLayout >> patchwork [
 ]
 
 { #category : #accessing }
-
 GraphvizLayout >> positionShapes: elements with: aString [
 	| nodeIndex yMax maxX maxY xFactor yFactor b|
 	aString ifEmpty: [ self error: 'Error in Dot converter' ].
@@ -225,6 +238,31 @@ GraphvizLayout >> positionShapes: elements with: aString [
 ]
 
 { #category : #accessing }
+GraphvizLayout >> rankMax [
+encoder rank: 'max'.
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankMin [
+encoder rank: 'min'.
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankSame [
+encoder rank: 'same'.
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankSink [
+encoder rank: 'sink'.
+]
+
+{ #category : #accessing }
+GraphvizLayout >> rankSource [
+encoder rank: 'source'.
+]
+
+{ #category : #accessing }
 GraphvizLayout >> rankdirLR [
 	encoder rankdirLR
 ]
@@ -256,6 +294,11 @@ GraphvizLayout >> sfdp [
 { #category : #obsolete }
 GraphvizLayout >> string: aString [
  string := aString
+]
+
+{ #category : #accessing }
+GraphvizLayout >> subgraph: aCollection [
+encoder addSubgraph: aCollection.
 ]
 
 { #category : #accessing }
